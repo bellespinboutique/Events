@@ -16,7 +16,9 @@ Vendor logos and table placement can be added later in the `#vendors` section.
 
 ## Admin Editor
 
-The private editor is available at `/admin` after deployment.
+The private editor is available at `/admin` after deployment. The table field is
+free-form and supports one table, a range, or non-adjacent tables, such as `1`,
+`1-2`, or `3, 4, 5`.
 
 Before using it, run `supabase-setup.sql` in the Supabase SQL Editor and create
 an admin user in Supabase Authentication. The website uses the public anon key

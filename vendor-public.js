@@ -54,7 +54,7 @@ function openVendor(vendor) {
   if (!dialog) return;
   renderLogo(dialog.querySelector("[data-dialog-logo]"), vendor);
   dialog.querySelector("[data-dialog-name]").textContent = vendor.name;
-  dialog.querySelector("[data-dialog-table]").textContent = vendor.table_number ? `Table ${vendor.table_number}` : "";
+  dialog.querySelector("[data-dialog-table]").textContent = vendor.table_number ? `Table(s) ${vendor.table_number}` : "";
   dialog.querySelector("[data-dialog-username]").textContent = vendor.username ? `@${vendor.username}` : "";
   dialog.querySelector("[data-dialog-notes]").textContent = vendor.notes || "";
   const link = dialog.querySelector("[data-dialog-link]");
@@ -103,7 +103,7 @@ function renderList(vendors) {
     renderLogo(logo, vendor);
     const body = document.createElement("div");
     const title = document.createElement("h3");
-    title.textContent = `${vendor.table_number ? `Table ${vendor.table_number}: ` : ""}${vendor.name}`;
+    title.textContent = `${vendor.table_number ? `Table(s) ${vendor.table_number}: ` : ""}${vendor.name}`;
     const username = document.createElement("p");
     username.textContent = vendor.username ? `@${vendor.username}` : "Vendor details coming soon";
     body.append(title, username);
