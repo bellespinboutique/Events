@@ -1,0 +1,480 @@
+:root {
+  color-scheme: dark;
+  --black: #050706;
+  --ink: #101612;
+  --panel: #121c18;
+  --panel-2: #182721;
+  --teal: #00aeb3;
+  --teal-bright: #28d7d2;
+  --mint: #b8d0bc;
+  --cream: #f0dfc4;
+  --gold: #c4a46c;
+  --muted: #aeb7ad;
+  --line: rgba(40, 215, 210, 0.28);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--cream);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0, 174, 179, 0.16), transparent 30rem),
+    linear-gradient(135deg, #050706 0%, #0c1512 52%, #050706 100%);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background-image:
+    linear-gradient(rgba(240, 223, 196, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 223, 196, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+a {
+  color: inherit;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 4vw, 4rem);
+  background: rgba(5, 7, 6, 0.82);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+
+.brand,
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 0.7rem;
+  color: var(--cream);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  color: var(--black);
+  background: var(--teal-bright);
+  border: 2px solid var(--cream);
+  border-radius: 50%;
+  font-family: BioRhyme, serif;
+  font-weight: 800;
+}
+
+.nav-links {
+  gap: clamp(0.7rem, 2vw, 1.5rem);
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.nav-links a {
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: var(--teal-bright);
+}
+
+.hero,
+.details-band,
+.map-section,
+.vendors-section,
+.info-strip,
+.site-footer {
+  width: min(1180px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  min-height: calc(100vh - 76px);
+  padding: 3rem 0;
+}
+
+.hero-content {
+  padding: 2rem 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--teal-bright);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+strong {
+  color: var(--cream);
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: BioRhyme, Georgia, serif;
+  line-height: 1.02;
+}
+
+h1 {
+  max-width: 820px;
+  font-size: clamp(3rem, 8vw, 7.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 4.2rem);
+}
+
+.hero-copy,
+.section-heading p,
+.map-copy p,
+.detail-card p,
+.info-strip span,
+.site-footer p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.hero-copy {
+  max-width: 650px;
+  margin: 1.4rem 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 3.1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.button.primary {
+  color: var(--black);
+  background: var(--teal-bright);
+  border-color: var(--teal-bright);
+}
+
+.button.secondary {
+  color: var(--cream);
+  background: rgba(240, 223, 196, 0.06);
+}
+
+.flyer-panel {
+  margin: 0;
+}
+
+.flyer-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.details-band,
+.vendors-section {
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin-bottom: 1.8rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.detail-card,
+.address-card,
+.vendor-slot,
+.info-strip > div {
+  background: linear-gradient(180deg, rgba(24, 39, 33, 0.95), rgba(11, 18, 16, 0.94));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.detail-card {
+  min-height: 12rem;
+  padding: 1.2rem;
+}
+
+.detail-label {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: var(--teal-bright);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.detail-card strong {
+  display: block;
+  min-height: 3.4rem;
+  font-family: BioRhyme, serif;
+  font-size: 1.25rem;
+  line-height: 1.28;
+}
+
+.detail-card p {
+  margin: 0.7rem 0 0;
+}
+
+.map-section {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+  gap: 1.2rem;
+  align-items: stretch;
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.map-copy {
+  padding: clamp(1.2rem, 3vw, 2rem);
+  background: rgba(240, 223, 196, 0.04);
+  border: 1px solid rgba(240, 223, 196, 0.12);
+  border-radius: 8px;
+}
+
+.address-card {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.address-card a {
+  width: fit-content;
+  margin-top: 0.5rem;
+  color: var(--teal-bright);
+  font-weight: 800;
+}
+
+.map-frame {
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.map-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  border: 0;
+}
+
+.floor-plan {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background:
+    linear-gradient(90deg, rgba(40, 215, 210, 0.13) 1px, transparent 1px),
+    linear-gradient(rgba(40, 215, 210, 0.13) 1px, transparent 1px),
+    rgba(5, 7, 6, 0.68);
+  background-size: 28px 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.room-label,
+.vendor-slot {
+  min-height: 7.5rem;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 800;
+}
+
+.room-label {
+  color: var(--black);
+  background: var(--mint);
+  border-radius: 8px;
+  font-family: BioRhyme, serif;
+}
+
+.entrance,
+.cafe {
+  grid-column: span 2;
+}
+
+.vendor-slot {
+  color: var(--muted);
+  border-style: dashed;
+}
+
+.vendor-slot.featured {
+  grid-column: span 2;
+  color: var(--cream);
+  border-color: var(--gold);
+}
+
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem 0 clamp(3rem, 7vw, 5rem);
+}
+
+.info-strip > div {
+  min-height: 8rem;
+  padding: 1.1rem;
+}
+
+.info-strip strong,
+.info-strip span {
+  display: block;
+}
+
+.info-strip strong {
+  margin-bottom: 0.55rem;
+  font-family: BioRhyme, serif;
+  font-size: 1.15rem;
+}
+
+.site-footer {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 0 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer h2 {
+  font-size: clamp(1.9rem, 4vw, 3.4rem);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+@media (max-width: 920px) {
+  .site-header,
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero,
+  .map-section {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .flyer-panel {
+    max-width: 560px;
+  }
+
+  .detail-grid,
+  .info-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .site-header {
+    position: static;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .hero,
+  .details-band,
+  .map-section,
+  .vendors-section,
+  .info-strip,
+  .site-footer {
+    width: min(100% - 1rem, 1180px);
+  }
+
+  h1 {
+    font-size: clamp(2.45rem, 15vw, 4.4rem);
+  }
+
+  .detail-grid,
+  .info-strip,
+  .floor-plan {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card {
+    min-height: auto;
+  }
+
+  .detail-card strong {
+    min-height: auto;
+  }
+
+  .entrance,
+  .cafe,
+  .vendor-slot.featured {
+    grid-column: span 1;
+  }
+
+  .map-frame,
+  .map-frame iframe {
+    min-height: 360px;
+  }
+}
