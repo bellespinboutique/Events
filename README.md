@@ -23,3 +23,7 @@ free-form and supports one table, a range, or non-adjacent tables, such as `1`,
 Before using it, run `supabase-setup.sql` in the Supabase SQL Editor and create
 an admin user in Supabase Authentication. The website uses the public anon key
 only; never add the Supabase service role key to this repo.
+
+Rerun `supabase-setup.sql` after updates that add new admin fields. It is written
+to be safe to rerun and now creates vendor placement fields, event information,
+upcoming events, and flyer storage.

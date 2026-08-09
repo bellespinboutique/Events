@@ -14,10 +14,20 @@ const chart = document.querySelector("[data-editable-chart]");
 const activeVendorText = document.querySelector("[data-active-vendor]");
 const newButton = document.querySelector("[data-new-vendor]");
 const deleteButton = document.querySelector("[data-delete-vendor]");
+const eventForm = document.querySelector("[data-event-form]");
+const eventStatus = document.querySelector("[data-event-status]");
+const upcomingForm = document.querySelector("[data-upcoming-form]");
+const upcomingStatus = document.querySelector("[data-upcoming-status]");
+const upcomingAdminList = document.querySelector("[data-upcoming-admin-list]");
+const newEventButton = document.querySelector("[data-new-event]");
+const deleteEventButton = document.querySelector("[data-delete-event]");
 
 let vendors = [];
 let activeVendorId = null;
 let dragState = null;
+let featuredEvent = null;
+let upcomingEvents = [];
+let activeEventId = null;
 
 function setStatus(element, message) {
   if (element) element.textContent = message || "";
@@ -159,6 +169,199 @@ async function uploadLogo(file) {
   return data.publicUrl;
 }
 
+async function uploadEventFlyer(file) {
+  if (!file) return null;
+  const ext = file.name.split(".").pop() || "png";
+  const path = `${crypto.randomUUID()}.${ext.toLowerCase()}`;
+  const { error } = await supabaseClient.storage
+    .from("event-flyers")
+    .upload(path, file, { cacheControl: "3600", upsert: false });
+
+  if (error) throw error;
+  const { data } = supabaseClient.storage.from("event-flyers").getPublicUrl(path);
+  return data.publicUrl;
+}
+
+function fillEventForm(eventData) {
+  if (!eventForm) return;
+  eventForm.elements.id.value = eventData?.id || "";
+  eventForm.elements.presented_by.value = eventData?.presented_by || "";
+  eventForm.elements.title.value = eventData?.title || "";
+  eventForm.elements.summary.value = eventData?.summary || "";
+  eventForm.elements.date_label.value = eventData?.date_label || "";
+  eventForm.elements.venue_name.value = eventData?.venue_name || "";
+  eventForm.elements.address.value = eventData?.address || "";
+  eventForm.elements.vendor_time.value = eventData?.vendor_time || "";
+  eventForm.elements.public_time.value = eventData?.public_time || "";
+  eventForm.elements.admission.value = eventData?.admission || "";
+  eventForm.elements.parking.value = eventData?.parking || "";
+  eventForm.elements.food_policy.value = eventData?.food_policy || "";
+  eventForm.elements.vendor_tables_note.value = eventData?.vendor_tables_note || "";
+  eventForm.elements.flyer_link.value = eventData?.flyer_link || "";
+  eventForm.elements.flyer.value = "";
+}
+
+function fillUpcomingForm(eventData) {
+  upcomingForm.elements.id.value = eventData?.id || "";
+  upcomingForm.elements.title.value = eventData?.title || "";
+  upcomingForm.elements.date_label.value = eventData?.date_label || "";
+  upcomingForm.elements.venue_name.value = eventData?.venue_name || "";
+  upcomingForm.elements.summary.value = eventData?.summary || "";
+  upcomingForm.elements.flyer_link.value = eventData?.flyer_link || "";
+  upcomingForm.elements.is_visible.checked = eventData ? Boolean(eventData.is_visible) : true;
+  upcomingForm.elements.flyer.value = "";
+  deleteEventButton.disabled = !eventData?.id;
+}
+
+function selectUpcomingEvent(id) {
+  activeEventId = id;
+  fillUpcomingForm(upcomingEvents.find((eventData) => eventData.id === id));
+  renderUpcomingAdminList();
+}
+
+function renderUpcomingAdminList() {
+  upcomingAdminList.replaceChildren();
+  upcomingEvents.forEach((eventData) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `admin-vendor-row${eventData.id === activeEventId ? " active" : ""}`;
+    const logo = document.createElement("span");
+    logo.className = "admin-vendor-logo";
+    if (eventData.flyer_url) {
+      const img = document.createElement("img");
+      img.src = eventData.flyer_url;
+      img.alt = "";
+      logo.append(img);
+    } else {
+      logo.textContent = "EV";
+    }
+    const body = document.createElement("span");
+    const title = document.createElement("strong");
+    title.textContent = eventData.title;
+    const meta = document.createElement("small");
+    meta.textContent = [eventData.date_label, eventData.venue_name].filter(Boolean).join(" - ") || "No date set";
+    body.append(title, meta);
+    button.append(logo, body);
+    button.addEventListener("click", () => selectUpcomingEvent(eventData.id));
+    upcomingAdminList.append(button);
+  });
+}
+
+async function loadEvents() {
+  const { data, error } = await supabaseClient
+    .from("events")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    setStatus(eventStatus, error.message);
+    return;
+  }
+
+  featuredEvent = (data || []).find((eventData) => eventData.is_featured) || null;
+  upcomingEvents = (data || []).filter((eventData) => !eventData.is_featured);
+  fillEventForm(featuredEvent);
+  fillUpcomingForm(null);
+  renderUpcomingAdminList();
+}
+
+function readEventForm(form, existing, options) {
+  const data = new FormData(form);
+  return {
+    title: String(data.get("title") || "").trim(),
+    presented_by: String(data.get("presented_by") || "").trim() || null,
+    summary: String(data.get("summary") || "").trim() || null,
+    date_label: String(data.get("date_label") || "").trim() || null,
+    venue_name: String(data.get("venue_name") || "").trim() || null,
+    address: String(data.get("address") || "").trim() || existing?.address || null,
+    vendor_time: String(data.get("vendor_time") || "").trim() || existing?.vendor_time || null,
+    public_time: String(data.get("public_time") || "").trim() || existing?.public_time || null,
+    admission: String(data.get("admission") || "").trim() || existing?.admission || null,
+    parking: String(data.get("parking") || "").trim() || existing?.parking || null,
+    food_policy: String(data.get("food_policy") || "").trim() || existing?.food_policy || null,
+    vendor_tables_note: String(data.get("vendor_tables_note") || "").trim() || existing?.vendor_tables_note || null,
+    flyer_link: String(data.get("flyer_link") || "").trim() || null,
+    is_featured: Boolean(options.is_featured),
+    is_upcoming: Boolean(options.is_upcoming),
+    is_visible: options.is_visible,
+    sort_order: existing?.sort_order || 0
+  };
+}
+
+async function saveEventInfo(event) {
+  event.preventDefault();
+  setStatus(eventStatus, "Saving...");
+  const id = eventForm.elements.id.value;
+  const flyerFile = eventForm.elements.flyer.files[0];
+  try {
+    const flyerUrl = flyerFile ? await uploadEventFlyer(flyerFile) : featuredEvent?.flyer_url || "assets/event-flyer.png";
+    const payload = {
+      ...readEventForm(eventForm, featuredEvent, { is_featured: true, is_upcoming: true, is_visible: true }),
+      flyer_url: flyerUrl
+    };
+    const query = id
+      ? supabaseClient.from("events").update(payload).eq("id", id).select().single()
+      : supabaseClient.from("events").insert(payload).select().single();
+    const { data, error } = await query;
+    if (error) throw error;
+    featuredEvent = data;
+    fillEventForm(featuredEvent);
+    setStatus(eventStatus, "Event info saved.");
+  } catch (error) {
+    setStatus(eventStatus, error.message);
+  }
+}
+
+async function saveUpcomingEvent(event) {
+  event.preventDefault();
+  setStatus(upcomingStatus, "Saving...");
+  const id = upcomingForm.elements.id.value;
+  const existing = id ? upcomingEvents.find((eventData) => eventData.id === id) : null;
+  const flyerFile = upcomingForm.elements.flyer.files[0];
+  try {
+    const flyerUrl = flyerFile ? await uploadEventFlyer(flyerFile) : existing?.flyer_url || null;
+    const payload = {
+      ...readEventForm(upcomingForm, existing, {
+        is_featured: false,
+        is_upcoming: true,
+        is_visible: Boolean(new FormData(upcomingForm).get("is_visible"))
+      }),
+      flyer_url: flyerUrl,
+      sort_order: existing?.sort_order || upcomingEvents.length + 1
+    };
+    const query = id
+      ? supabaseClient.from("events").update(payload).eq("id", id).select().single()
+      : supabaseClient.from("events").insert(payload).select().single();
+    const { data, error } = await query;
+    if (error) throw error;
+    upcomingEvents = id
+      ? upcomingEvents.map((eventData) => (eventData.id === id ? data : eventData))
+      : [...upcomingEvents, data];
+    selectUpcomingEvent(data.id);
+    setStatus(upcomingStatus, "Upcoming event saved.");
+  } catch (error) {
+    setStatus(upcomingStatus, error.message);
+  }
+}
+
+async function deleteUpcomingEvent() {
+  const eventData = upcomingEvents.find((item) => item.id === activeEventId);
+  if (!eventData) return;
+  const ok = window.confirm(`Delete ${eventData.title}?`);
+  if (!ok) return;
+  const { error } = await supabaseClient.from("events").delete().eq("id", eventData.id);
+  if (error) {
+    setStatus(upcomingStatus, error.message);
+    return;
+  }
+  upcomingEvents = upcomingEvents.filter((item) => item.id !== eventData.id);
+  activeEventId = null;
+  fillUpcomingForm(null);
+  renderUpcomingAdminList();
+  setStatus(upcomingStatus, "Upcoming event deleted.");
+}
+
 async function saveVendor(event) {
   event.preventDefault();
   setStatus(formStatus, "Saving...");
@@ -265,7 +468,10 @@ async function checkSession() {
   loginPanel.hidden = signedIn;
   adminPanel.hidden = !signedIn;
   logoutButton.hidden = !signedIn;
-  if (signedIn) await loadVendors();
+  if (signedIn) {
+    await loadEvents();
+    await loadVendors();
+  }
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -296,6 +502,14 @@ newButton.addEventListener("click", () => {
   renderAdmin();
 });
 deleteButton.addEventListener("click", deleteVendor);
+eventForm.addEventListener("submit", saveEventInfo);
+upcomingForm.addEventListener("submit", saveUpcomingEvent);
+newEventButton.addEventListener("click", () => {
+  activeEventId = null;
+  fillUpcomingForm(null);
+  renderUpcomingAdminList();
+});
+deleteEventButton.addEventListener("click", deleteUpcomingEvent);
 vendorForm.elements.width.addEventListener("input", async (event) => {
   const vendor = currentVendor();
   if (!vendor) return;

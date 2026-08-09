@@ -52,10 +52,131 @@
           <p class="eyebrow">Admin Tools</p>
           <h1>Vendor Editor</h1>
           <p>
-            Add a vendor, upload a logo, then drag the logo on the seating chart.
-            Use the size slider to fit the table placement.
+            Edit event details, add future flyers, and manage vendors on the
+            seating chart.
           </p>
         </div>
+
+        <section class="admin-event-panel" aria-labelledby="event-info-title">
+          <div class="admin-chart-header">
+            <div>
+              <p class="eyebrow">Current Event</p>
+              <h2 id="event-info-title">Event Information</h2>
+            </div>
+            <p>Edit this event for future dates, locations, flyers, and policies.</p>
+          </div>
+          <form class="admin-form event-form" data-event-form>
+            <input type="hidden" name="id">
+            <label>
+              Presented by
+              <input type="text" name="presented_by" placeholder="@bellespinboutique91 & @ghosthost86 Present">
+            </label>
+            <label>
+              Event title
+              <input type="text" name="title" placeholder="Pin Trading Event" required>
+            </label>
+            <label class="wide-field">
+              Welcome message
+              <textarea name="summary" rows="3"></textarea>
+            </label>
+            <label>
+              Date label
+              <input type="text" name="date_label" placeholder="Sunday, August 23">
+            </label>
+            <label>
+              Venue name
+              <input type="text" name="venue_name">
+            </label>
+            <label class="wide-field">
+              Address
+              <input type="text" name="address">
+            </label>
+            <label>
+              Vendor time
+              <input type="text" name="vendor_time">
+            </label>
+            <label>
+              Public time
+              <input type="text" name="public_time">
+            </label>
+            <label>
+              Admission
+              <input type="text" name="admission">
+            </label>
+            <label class="wide-field">
+              Parking note
+              <input type="text" name="parking">
+            </label>
+            <label class="wide-field">
+              Food policy
+              <input type="text" name="food_policy">
+            </label>
+            <label class="wide-field">
+              Vendor table note
+              <textarea name="vendor_tables_note" rows="2"></textarea>
+            </label>
+            <label>
+              Flyer image
+              <input type="file" name="flyer" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <label>
+              Flyer link
+              <input type="url" name="flyer_link" placeholder="https://instagram.com/p/...">
+            </label>
+            <div class="admin-actions wide-field">
+              <button class="button primary" type="submit">Save Event Info</button>
+              <p class="form-status" data-event-status role="status"></p>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-event-panel" aria-labelledby="upcoming-admin-title">
+          <div class="admin-chart-header">
+            <div>
+              <p class="eyebrow">Future Events</p>
+              <h2 id="upcoming-admin-title">Upcoming Events</h2>
+            </div>
+            <p>Add flyers and dates for events that should appear in the public Upcoming Events section.</p>
+          </div>
+          <form class="admin-form upcoming-form" data-upcoming-form>
+            <input type="hidden" name="id">
+            <label>
+              Event title
+              <input type="text" name="title" required>
+            </label>
+            <label>
+              Date label
+              <input type="text" name="date_label">
+            </label>
+            <label>
+              Venue name
+              <input type="text" name="venue_name">
+            </label>
+            <label>
+              Flyer image
+              <input type="file" name="flyer" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <label class="wide-field">
+              Summary
+              <textarea name="summary" rows="2"></textarea>
+            </label>
+            <label>
+              Flyer or event link
+              <input type="url" name="flyer_link" placeholder="https://instagram.com/p/...">
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="is_visible" checked>
+              Show on public page
+            </label>
+            <div class="admin-actions wide-field">
+              <button class="button primary" type="submit">Save Upcoming Event</button>
+              <button class="button secondary" type="button" data-new-event>New Upcoming Event</button>
+              <button class="button danger" type="button" data-delete-event disabled>Delete Upcoming Event</button>
+              <p class="form-status" data-upcoming-status role="status"></p>
+            </div>
+          </form>
+          <div class="upcoming-admin-list" data-upcoming-admin-list></div>
+        </section>
 
         <div class="admin-grid">
           <form class="admin-form vendor-form" data-vendor-form>

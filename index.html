@@ -35,9 +35,9 @@
     <main id="main-content">
       <section class="hero">
         <div class="hero-content">
-          <p class="eyebrow">@bellespinboutique91 &amp; @ghosthost86 Present</p>
-          <h1>Pin Trading Event</h1>
-          <p class="hero-copy">
+          <p class="eyebrow" data-event-presented>@bellespinboutique91 &amp; @ghosthost86 Present</p>
+          <h1 data-event-title>Pin Trading Event</h1>
+          <p class="hero-copy" data-event-summary>
             We are excited to host our first big trade event. We love to trade,
             so join us, stop by, meet the community, and check back for future
             event announcements coming soon.
@@ -50,8 +50,8 @@
           </div>
         </div>
         <aside class="flyer-panel" aria-label="Event flyer">
-          <a href="https://www.instagram.com/p/DbWM2I8PP3l/" target="_blank" rel="noopener">
-            <img src="assets/event-flyer.png" alt="BellesPinBoutique91 event flyer">
+          <a href="https://www.instagram.com/p/DbWM2I8PP3l/" target="_blank" rel="noopener" data-event-flyer-link>
+            <img src="assets/event-flyer.png" alt="BellesPinBoutique91 event flyer" data-event-flyer>
             <span>Open flyer on Instagram</span>
           </a>
         </aside>
@@ -59,28 +59,28 @@
 
       <section id="details" class="details-band" aria-labelledby="details-title">
         <div class="section-heading">
-          <p class="eyebrow">Sunday, August 23</p>
+          <p class="eyebrow" data-event-date>Sunday, August 23</p>
           <h2 id="details-title">Event Details</h2>
         </div>
         <div class="detail-grid">
           <article class="detail-card">
             <span class="detail-label">Venue</span>
-            <strong>DoubleTree by Hilton - Buena Park</strong>
-            <p>7000 Beach Blvd, Buena Park, CA 90620</p>
+            <strong data-event-venue>DoubleTree by Hilton - Buena Park</strong>
+            <p data-event-address>7000 Beach Blvd, Buena Park, CA 90620</p>
           </article>
           <article class="detail-card">
             <span class="detail-label">Vendor Time</span>
-            <strong>9:00 AM - 11:00 AM</strong>
+            <strong data-event-vendor-time>9:00 AM - 11:00 AM</strong>
             <p>Vendor setup and early event window.</p>
           </article>
           <article class="detail-card">
             <span class="detail-label">Public Entry</span>
-            <strong>11:00 AM - 5:00 PM</strong>
+            <strong data-event-public-time>11:00 AM - 5:00 PM</strong>
             <p>General admission for pin trading and shopping.</p>
           </article>
           <article class="detail-card">
             <span class="detail-label">Admission</span>
-            <strong>$5 or Disney pin donation</strong>
+            <strong data-event-admission>$5 or Disney pin donation</strong>
             <p>Free general public parking is available.</p>
           </article>
         </div>
@@ -151,19 +151,29 @@
       <section class="info-strip" aria-label="Additional event information">
         <div>
           <strong>Free parking</strong>
-          <span>General public parking is available at the venue.</span>
+            <span data-event-parking>General public parking is available at the venue.</span>
         </div>
         <div>
           <strong>Vendor tables</strong>
-          <span>
+          <span data-event-vendor-note>
             Vendor tables are sold out for this event. Message @bellespinboutique91
             to be added to the wait list and notified about future events.
           </span>
         </div>
         <div>
           <strong>Food policy</strong>
-          <span>No outside food or beverages allowed.</span>
+          <span data-event-food-policy>No outside food or beverages allowed.</span>
         </div>
+      </section>
+
+      <section id="upcoming" class="upcoming-section" aria-labelledby="upcoming-title">
+        <div class="section-heading">
+          <p class="eyebrow">More Events</p>
+          <h2 id="upcoming-title">Upcoming Events</h2>
+          <p>Future trade events and flyers will be posted here as they are announced.</p>
+        </div>
+        <p class="empty-state" data-upcoming-empty>Upcoming events will be announced soon.</p>
+        <div class="upcoming-list" data-upcoming-list></div>
       </section>
 
       <section id="terms" class="terms-section" aria-labelledby="terms-title">

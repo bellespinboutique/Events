@@ -6,6 +6,8 @@ const list = document.querySelector("[data-vendor-list]");
 const empty = document.querySelector("[data-vendor-empty]");
 const dialog = document.querySelector("[data-vendor-dialog]");
 const dialogClose = document.querySelector("[data-dialog-close]");
+const upcomingList = document.querySelector("[data-upcoming-list]");
+const upcomingEmpty = document.querySelector("[data-upcoming-empty]");
 
 function normalizeVendor(vendor) {
   return {
@@ -135,6 +137,98 @@ function renderList(vendors) {
   });
 }
 
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element && value) element.textContent = value;
+}
+
+function renderFeaturedEvent(eventData) {
+  if (!eventData) return;
+  setText("[data-event-presented]", eventData.presented_by);
+  setText("[data-event-title]", eventData.title);
+  setText("[data-event-summary]", eventData.summary);
+  setText("[data-event-date]", eventData.date_label);
+  setText("[data-event-venue]", eventData.venue_name);
+  setText("[data-event-address]", eventData.address);
+  setText("[data-event-vendor-time]", eventData.vendor_time);
+  setText("[data-event-public-time]", eventData.public_time);
+  setText("[data-event-admission]", eventData.admission);
+  setText("[data-event-parking]", eventData.parking);
+  setText("[data-event-food-policy]", eventData.food_policy);
+
+  const vendorNote = document.querySelector("[data-event-vendor-note]");
+  if (vendorNote && eventData.vendor_tables_note) vendorNote.textContent = eventData.vendor_tables_note;
+
+  const flyer = document.querySelector("[data-event-flyer]");
+  if (flyer && eventData.flyer_url) flyer.src = eventData.flyer_url;
+
+  const flyerLink = document.querySelector("[data-event-flyer-link]");
+  if (flyerLink && isSafeUrl(eventData.flyer_link)) {
+    flyerLink.href = eventData.flyer_link;
+  }
+}
+
+function renderUpcomingEvents(events) {
+  if (!upcomingList) return;
+  upcomingList.replaceChildren();
+  const visibleEvents = events.filter((eventData) => !eventData.is_featured);
+  if (upcomingEmpty) upcomingEmpty.hidden = visibleEvents.length > 0;
+  visibleEvents.forEach((eventData) => {
+    const card = document.createElement("article");
+    card.className = "upcoming-card";
+
+    if (eventData.flyer_url) {
+      const img = document.createElement("img");
+      img.src = eventData.flyer_url;
+      img.alt = `${eventData.title} flyer`;
+      card.append(img);
+    }
+
+    const body = document.createElement("div");
+    const title = document.createElement("h3");
+    title.textContent = eventData.title;
+    const meta = document.createElement("p");
+    meta.textContent = [eventData.date_label, eventData.venue_name].filter(Boolean).join(" - ");
+    body.append(title);
+    if (meta.textContent) body.append(meta);
+    if (eventData.summary) {
+      const summary = document.createElement("p");
+      summary.textContent = eventData.summary;
+      body.append(summary);
+    }
+    if (isSafeUrl(eventData.flyer_link)) {
+      const link = document.createElement("a");
+      link.className = "button secondary";
+      link.href = eventData.flyer_link;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "View Event";
+      body.append(link);
+    }
+    card.append(body);
+    upcomingList.append(card);
+  });
+}
+
+async function loadEvents() {
+  if (!publicConfig?.url || !publicConfig?.anonKey) return;
+  const { data, error } = await publicClient
+    .from("events")
+    .select("*")
+    .eq("is_visible", true)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const events = data || [];
+  renderFeaturedEvent(events.find((eventData) => eventData.is_featured));
+  renderUpcomingEvents(events);
+}
+
 async function loadVendors() {
   if (!publicConfig?.url || !publicConfig?.anonKey) return;
   const { data, error } = await publicClient
@@ -162,4 +256,5 @@ if (dialogClose) {
   dialogClose.addEventListener("click", () => dialog.close());
 }
 
+loadEvents();
 loadVendors();

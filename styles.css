@@ -149,6 +149,7 @@ textarea {
 .map-section,
 .vendors-section,
 .info-strip,
+.upcoming-section,
 .terms-section,
 .site-footer {
   width: min(1180px, calc(100% - 2rem));
@@ -269,6 +270,7 @@ h2 {
 
 .details-band,
 .vendors-section,
+.upcoming-section,
 .terms-section {
   padding: clamp(3rem, 7vw, 5rem) 0;
 }
@@ -520,6 +522,46 @@ h2 {
   margin: 0.25rem 0 0;
 }
 
+.upcoming-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.upcoming-card {
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(24, 39, 33, 0.95), rgba(11, 18, 16, 0.94));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.upcoming-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.upcoming-card > div {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.upcoming-card h3 {
+  margin: 0;
+  color: var(--cream);
+  font-family: BioRhyme, serif;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.upcoming-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .vendor-card-logo,
 .dialog-logo,
 .admin-vendor-logo {
@@ -676,6 +718,7 @@ h2 {
 }
 
 .admin-form,
+.admin-event-panel,
 .admin-chart-panel,
 .admin-vendor-list {
   padding: 1.2rem;
@@ -761,6 +804,26 @@ h2 {
   margin-top: 1rem;
 }
 
+.admin-event-panel {
+  margin-bottom: 1rem;
+}
+
+.event-form,
+.upcoming-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.upcoming-admin-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
 .vendor-list-admin {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -823,8 +886,10 @@ h2 {
   .chart-layout,
   .detail-grid,
   .info-strip,
+  .upcoming-list,
   .vendor-list,
-  .vendor-list-admin {
+  .vendor-list-admin,
+  .upcoming-admin-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -859,9 +924,13 @@ h2 {
 
   .detail-grid,
   .info-strip,
+  .upcoming-list,
   .terms-grid,
   .vendor-list,
-  .vendor-list-admin {
+  .vendor-list-admin,
+  .upcoming-admin-list,
+  .event-form,
+  .upcoming-form {
     grid-template-columns: 1fr;
   }
 
@@ -871,6 +940,10 @@ h2 {
 
   .admin-chart-header {
     display: block;
+  }
+
+  .wide-field {
+    grid-column: auto;
   }
 
   .detail-card {
