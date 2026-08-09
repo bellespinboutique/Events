@@ -32,6 +32,7 @@ function openVendor(vendor) {
     ? `<img src="${vendor.logo_url}" alt="">`
     : `<span>${vendorInitials(vendor.name)}</span>`;
   dialog.querySelector("[data-dialog-name]").textContent = vendor.name;
+  dialog.querySelector("[data-dialog-table]").textContent = vendor.table_number ? `Table ${vendor.table_number}` : "";
   dialog.querySelector("[data-dialog-username]").textContent = vendor.username ? `@${vendor.username}` : "";
   dialog.querySelector("[data-dialog-notes]").textContent = vendor.notes || "";
   const link = dialog.querySelector("[data-dialog-link]");
@@ -59,6 +60,12 @@ function renderPins(vendors) {
     pin.innerHTML = vendor.logo_url
       ? `<img src="${vendor.logo_url}" alt="">`
       : `<span>${vendorInitials(vendor.name)}</span>`;
+    if (vendor.table_number) {
+      const badge = document.createElement("span");
+      badge.className = "vendor-pin-number";
+      badge.textContent = vendor.table_number;
+      pin.append(badge);
+    }
     pin.addEventListener("click", () => openVendor(vendor));
     overlay.append(pin);
   });
@@ -76,7 +83,7 @@ function renderList(vendors) {
         ${vendor.logo_url ? `<img src="${vendor.logo_url}" alt="">` : `<span>${vendorInitials(vendor.name)}</span>`}
       </div>
       <div>
-        <h3>${vendor.name}</h3>
+        <h3>${vendor.table_number ? `Table ${vendor.table_number}: ` : ""}${vendor.name}</h3>
         <p>${vendor.username ? `@${vendor.username}` : "Vendor details coming soon"}</p>
         ${vendor.notes ? `<p>${vendor.notes}</p>` : ""}
       </div>

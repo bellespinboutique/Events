@@ -48,6 +48,7 @@ function currentVendor() {
 
 function fillForm(vendor) {
   vendorForm.elements.id.value = vendor?.id || "";
+  vendorForm.elements.table_number.value = vendor?.table_number || "";
   vendorForm.elements.name.value = vendor?.name || "";
   vendorForm.elements.username.value = vendor?.username || "";
   vendorForm.elements.website_url.value = vendor?.website_url || "";
@@ -76,7 +77,7 @@ function renderAdminList() {
         ${vendor.logo_url ? `<img src="${vendor.logo_url}" alt="">` : `<span>${initials(vendor.name)}</span>`}
       </span>
       <span>
-        <strong>${vendor.name}</strong>
+        <strong>${vendor.table_number ? `${vendor.table_number} - ` : ""}${vendor.name}</strong>
         <small>${vendor.username ? `@${vendor.username}` : "No username"}</small>
       </span>
     `;
@@ -98,6 +99,12 @@ function renderAdminPins() {
     pin.innerHTML = vendor.logo_url
       ? `<img src="${vendor.logo_url}" alt="">`
       : `<span>${initials(vendor.name)}</span>`;
+    if (vendor.table_number) {
+      const badge = document.createElement("span");
+      badge.className = "vendor-pin-number";
+      badge.textContent = vendor.table_number;
+      pin.append(badge);
+    }
     pin.addEventListener("pointerdown", (event) => startDrag(event, vendor.id));
     pin.addEventListener("click", () => selectVendor(vendor.id));
     adminOverlay.append(pin);
@@ -149,6 +156,7 @@ async function saveVendor(event) {
   try {
     const logoUrl = logoFile ? await uploadLogo(logoFile) : existing?.logo_url || null;
     const payload = {
+      table_number: String(form.get("table_number") || "").trim() || null,
       name: String(form.get("name") || "").trim(),
       username: String(form.get("username") || "").replace(/^@/, "").trim() || null,
       website_url: String(form.get("website_url") || "").trim() || null,
