@@ -47,6 +47,30 @@ a {
   color: inherit;
 }
 
+a:focus-visible,
+button:focus-visible,
+iframe:focus-visible {
+  outline: 3px solid var(--teal-bright);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  color: var(--black);
+  background: var(--cream);
+  border-radius: 7px;
+  font-weight: 800;
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -107,6 +131,7 @@ a {
 .map-section,
 .vendors-section,
 .info-strip,
+.terms-section,
 .site-footer {
   width: min(1180px, calc(100% - 2rem));
   margin-inline: auto;
@@ -216,7 +241,8 @@ h2 {
 }
 
 .details-band,
-.vendors-section {
+.vendors-section,
+.terms-section {
   padding: clamp(3rem, 7vw, 5rem) 0;
 }
 
@@ -312,51 +338,62 @@ h2 {
   border: 0;
 }
 
-.floor-plan {
+.chart-layout {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.85rem;
-  padding: clamp(1rem, 3vw, 1.5rem);
-  background:
-    linear-gradient(90deg, rgba(40, 215, 210, 0.13) 1px, transparent 1px),
-    linear-gradient(rgba(40, 215, 210, 0.13) 1px, transparent 1px),
-    rgba(5, 7, 6, 0.68);
-  background-size: 28px 28px;
+  grid-template-columns: minmax(0, 0.72fr) minmax(280px, 0.28fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.seating-chart {
+  margin: 0;
+  padding: clamp(0.65rem, 2vw, 1rem);
+  background: rgba(5, 7, 6, 0.64);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.seating-chart img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.seating-chart figcaption {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.chart-notes,
+.terms-grid article {
+  background: linear-gradient(180deg, rgba(24, 39, 33, 0.95), rgba(11, 18, 16, 0.94));
   border: 1px solid var(--line);
   border-radius: 8px;
 }
 
-.room-label,
-.vendor-slot {
-  min-height: 7.5rem;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
-  text-align: center;
-  font-weight: 800;
+.chart-notes {
+  padding: 1.2rem;
 }
 
-.room-label {
-  color: var(--black);
-  background: var(--mint);
-  border-radius: 8px;
-  font-family: BioRhyme, serif;
-}
-
-.entrance,
-.cafe {
-  grid-column: span 2;
-}
-
-.vendor-slot {
-  color: var(--muted);
-  border-style: dashed;
-}
-
-.vendor-slot.featured {
-  grid-column: span 2;
+.chart-notes h3,
+.terms-grid h3 {
+  margin: 0 0 0.75rem;
   color: var(--cream);
-  border-color: var(--gold);
+  font-family: BioRhyme, serif;
+  font-size: 1.22rem;
+  line-height: 1.25;
+}
+
+.chart-notes ul {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .info-strip {
@@ -382,6 +419,27 @@ h2 {
   font-size: 1.15rem;
 }
 
+.terms-section {
+  padding-top: 1rem;
+}
+
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.terms-grid article {
+  min-height: 13rem;
+  padding: 1.2rem;
+}
+
+.terms-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .site-footer {
   display: flex;
   align-items: end;
@@ -397,6 +455,12 @@ h2 {
 
 .site-footer p {
   margin: 0;
+}
+
+.footer-copy {
+  display: grid;
+  max-width: 520px;
+  gap: 0.65rem;
 }
 
 @media (max-width: 920px) {
@@ -424,9 +488,14 @@ h2 {
     max-width: 560px;
   }
 
+  .chart-layout,
   .detail-grid,
   .info-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chart-layout {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -445,6 +514,7 @@ h2 {
   .map-section,
   .vendors-section,
   .info-strip,
+  .terms-section,
   .site-footer {
     width: min(100% - 1rem, 1180px);
   }
@@ -455,7 +525,7 @@ h2 {
 
   .detail-grid,
   .info-strip,
-  .floor-plan {
+  .terms-grid {
     grid-template-columns: 1fr;
   }
 
@@ -465,12 +535,6 @@ h2 {
 
   .detail-card strong {
     min-height: auto;
-  }
-
-  .entrance,
-  .cafe,
-  .vendor-slot.featured {
-    grid-column: span 1;
   }
 
   .map-frame,

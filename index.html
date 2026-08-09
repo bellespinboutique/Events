@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header" aria-label="Event header">
       <a class="brand" href="#">
         <span class="brand-mark">BP</span>
@@ -26,11 +27,12 @@
         <a href="#details">Details</a>
         <a href="#map">Map</a>
         <a href="#vendors">Vendors</a>
+        <a href="#terms">Terms</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero">
         <div class="hero-content">
           <p class="eyebrow">@ghosthost86 Presents</p>
@@ -43,7 +45,7 @@
             <a class="button primary" href="https://www.google.com/maps/search/?api=1&query=7000+Beach+Blvd%2C+Buena+Park%2C+CA+90620">
               Open Map
             </a>
-            <a class="button secondary" href="#vendors">Vendor Layout</a>
+            <a class="button secondary" href="#vendors">Seating Chart</a>
           </div>
         </div>
         <aside class="flyer-panel" aria-label="Event flyer">
@@ -109,23 +111,31 @@
       <section id="vendors" class="vendors-section" aria-labelledby="vendors-title">
         <div class="section-heading">
           <p class="eyebrow">Vendor Placement</p>
-          <h2 id="vendors-title">Vendor Map Placeholder</h2>
+          <h2 id="vendors-title">Seating Chart</h2>
           <p>
-            Vendor logos and table assignments can be added here once the final lineup is ready.
+            Vendor logos and table assignments can be added to this chart once the
+            final lineup is ready.
           </p>
         </div>
-        <div class="floor-plan" aria-label="Vendor table placement placeholder">
-          <div class="room-label entrance">Public Entry</div>
-          <div class="vendor-slot">Logo / Table 1</div>
-          <div class="vendor-slot">Logo / Table 2</div>
-          <div class="vendor-slot">Logo / Table 3</div>
-          <div class="vendor-slot">Logo / Table 4</div>
-          <div class="vendor-slot featured">Featured Host Table</div>
-          <div class="vendor-slot">Logo / Table 5</div>
-          <div class="vendor-slot">Logo / Table 6</div>
-          <div class="vendor-slot">Logo / Table 7</div>
-          <div class="vendor-slot">Logo / Table 8</div>
-          <div class="room-label cafe">Cafe & Restaurant On-Site</div>
+        <div class="chart-layout">
+          <figure class="seating-chart">
+            <img
+              src="assets/seating-chart.png"
+              alt="Event room seating chart with vendor table blocks, chair positions, doors, walkways, and spacing measurements."
+            >
+            <figcaption>
+              Preliminary room layout. Final vendor names, logos, and table numbers will be added later.
+            </figcaption>
+          </figure>
+          <div class="chart-notes" aria-label="Seating chart notes">
+            <h3>Layout Notes</h3>
+            <ul>
+              <li>Entry doors and walkways are shown on the room diagram.</li>
+              <li>Measured aisles include 3-foot, 4-foot, 6-foot, and 7-foot spacing areas.</li>
+              <li>Vendor tables are shown as light green blocks with seating marked nearby.</li>
+              <li>Final table assignments are subject to change before the event.</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -143,6 +153,47 @@
           <span>No outside food or beverages allowed.</span>
         </div>
       </section>
+
+      <section id="terms" class="terms-section" aria-labelledby="terms-title">
+        <div class="section-heading">
+          <p class="eyebrow">Terms & Conditions</p>
+          <h2 id="terms-title">Event Policies</h2>
+        </div>
+        <div class="terms-grid">
+          <article>
+            <h3>Fan-Hosted Event</h3>
+            <p>
+              This is an independently fan-hosted Disney pin trading community event.
+              It is not affiliated with, sponsored by, endorsed by, or connected to
+              The Walt Disney Company, Disneyland Resort, Walt Disney World Resort,
+              or any Disney affiliate.
+            </p>
+          </article>
+          <article>
+            <h3>Admission & Entry</h3>
+            <p>
+              Public entry begins at 11:00 AM. Admission is $5 or a Disney pin donation.
+              Event hosts may update entry procedures, table assignments, or event
+              details as needed.
+            </p>
+          </article>
+          <article>
+            <h3>Venue Rules</h3>
+            <p>
+              Please follow all venue policies. No outside food or beverages are allowed.
+              Cafe and restaurant options are available on-site.
+            </p>
+          </article>
+          <article>
+            <h3>Accessibility</h3>
+            <p>
+              Guests who need accessibility assistance should contact the hosts before
+              the event so reasonable seating, entry, or navigation needs can be reviewed
+              with the venue.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
 
     <footer id="contact" class="site-footer">
@@ -150,7 +201,13 @@
         <p class="eyebrow">Questions or Vendor Tables</p>
         <h2>DM @bellespinboutique91</h2>
       </div>
-      <p>Hosted by @bellespinboutique91 &amp; @ghosthost86</p>
+      <div class="footer-copy">
+        <p>Hosted by @bellespinboutique91 &amp; @ghosthost86</p>
+        <p>
+          Independent fan-hosted pin trading event. Not affiliated with, sponsored
+          by, or endorsed by Disney.
+        </p>
+      </div>
     </footer>
   </body>
 </html>
