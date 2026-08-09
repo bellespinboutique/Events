@@ -33,6 +33,20 @@ function initials(name) {
     .toUpperCase();
 }
 
+function renderLogo(target, vendor) {
+  target.replaceChildren();
+  if (vendor.logo_url) {
+    const img = document.createElement("img");
+    img.src = vendor.logo_url;
+    img.alt = "";
+    target.append(img);
+    return;
+  }
+  const fallback = document.createElement("span");
+  fallback.textContent = initials(vendor.name);
+  target.append(fallback);
+}
+
 function normalize(vendor) {
   return {
     ...vendor,
@@ -67,27 +81,28 @@ function selectVendor(id) {
 }
 
 function renderAdminList() {
-  adminList.innerHTML = "";
+  adminList.replaceChildren();
   vendors.forEach((vendor) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `admin-vendor-row${vendor.id === activeVendorId ? " active" : ""}`;
-    button.innerHTML = `
-      <span class="admin-vendor-logo">
-        ${vendor.logo_url ? `<img src="${vendor.logo_url}" alt="">` : `<span>${initials(vendor.name)}</span>`}
-      </span>
-      <span>
-        <strong>${vendor.table_number ? `${vendor.table_number} - ` : ""}${vendor.name}</strong>
-        <small>${vendor.username ? `@${vendor.username}` : "No username"}</small>
-      </span>
-    `;
+    const logo = document.createElement("span");
+    logo.className = "admin-vendor-logo";
+    renderLogo(logo, vendor);
+    const body = document.createElement("span");
+    const name = document.createElement("strong");
+    name.textContent = `${vendor.table_number ? `${vendor.table_number} - ` : ""}${vendor.name}`;
+    const username = document.createElement("small");
+    username.textContent = vendor.username ? `@${vendor.username}` : "No username";
+    body.append(name, username);
+    button.append(logo, body);
     button.addEventListener("click", () => selectVendor(vendor.id));
     adminList.append(button);
   });
 }
 
 function renderAdminPins() {
-  adminOverlay.innerHTML = "";
+  adminOverlay.replaceChildren();
   vendors.forEach((vendor) => {
     const pin = document.createElement("button");
     pin.type = "button";
@@ -96,9 +111,7 @@ function renderAdminPins() {
     pin.style.top = `${vendor.y}%`;
     pin.style.width = `${vendor.width}%`;
     pin.setAttribute("aria-label", `Move ${vendor.name}`);
-    pin.innerHTML = vendor.logo_url
-      ? `<img src="${vendor.logo_url}" alt="">`
-      : `<span>${initials(vendor.name)}</span>`;
+    renderLogo(pin, vendor);
     if (vendor.table_number) {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
