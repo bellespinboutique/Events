@@ -143,6 +143,19 @@
             <p class="empty-state" data-vendor-empty>
               Vendor guide coming soon. Check back for vendor names, usernames, and logos.
             </p>
+            <div class="vendor-controls" aria-label="Vendor search and sort controls">
+              <label>
+                Search vendors
+                <input type="search" data-vendor-search placeholder="Name, username, or table">
+              </label>
+              <label>
+                Sort by
+                <select data-vendor-sort>
+                  <option value="table">Table</option>
+                  <option value="name">A-Z</option>
+                </select>
+              </label>
+            </div>
             <div class="vendor-list" data-vendor-list></div>
           </section>
         </div>

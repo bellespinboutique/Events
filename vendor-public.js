@@ -8,6 +8,10 @@ const dialog = document.querySelector("[data-vendor-dialog]");
 const dialogClose = document.querySelector("[data-dialog-close]");
 const upcomingList = document.querySelector("[data-upcoming-list]");
 const upcomingEmpty = document.querySelector("[data-upcoming-empty]");
+const vendorSearch = document.querySelector("[data-vendor-search]");
+const vendorSort = document.querySelector("[data-vendor-sort]");
+
+let allVendors = [];
 
 function normalizeVendor(vendor) {
   return {
@@ -137,6 +141,38 @@ function renderList(vendors) {
   });
 }
 
+function tableSortValue(value) {
+  const text = String(value || "");
+  const number = text.match(/\d+/);
+  if (number) return Number(number[0]);
+  return Number.MAX_SAFE_INTEGER;
+}
+
+function applyVendorFilters() {
+  const query = String(vendorSearch?.value || "").trim().toLowerCase();
+  const sort = vendorSort?.value || "table";
+  let filtered = allVendors.filter((vendor) => {
+    const haystack = [
+      vendor.name,
+      vendor.username,
+      vendor.table_number,
+      vendor.notes,
+      vendor.marker_type
+    ].filter(Boolean).join(" ").toLowerCase();
+    return !query || haystack.includes(query);
+  });
+
+  filtered = [...filtered].sort((a, b) => {
+    if (sort === "name") return String(a.name).localeCompare(String(b.name));
+    const tableDiff = tableSortValue(a.table_number) - tableSortValue(b.table_number);
+    if (tableDiff !== 0) return tableDiff;
+    return String(a.name).localeCompare(String(b.name));
+  });
+
+  renderPins(filtered);
+  renderList(filtered);
+}
+
 function setText(selector, value) {
   const element = document.querySelector(selector);
   if (element && value) element.textContent = value;
@@ -251,14 +287,16 @@ async function loadVendors() {
     return;
   }
 
-  const vendors = (data || []).map(normalizeVendor);
-  renderPins(vendors);
-  renderList(vendors);
+  allVendors = (data || []).map(normalizeVendor);
+  applyVendorFilters();
 }
 
 if (dialogClose) {
   dialogClose.addEventListener("click", () => dialog.close());
 }
+
+vendorSearch?.addEventListener("input", applyVendorFilters);
+vendorSort?.addEventListener("change", applyVendorFilters);
 
 loadEvents();
 loadVendors();
