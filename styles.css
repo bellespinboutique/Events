@@ -374,33 +374,23 @@ h2 {
   line-height: 1.5;
 }
 
-.chart-notes,
+.vendor-directory,
 .terms-grid article {
   background: linear-gradient(180deg, rgba(24, 39, 33, 0.95), rgba(11, 18, 16, 0.94));
   border: 1px solid var(--line);
   border-radius: 8px;
 }
 
-.chart-notes {
+.vendor-directory {
   padding: 1.2rem;
 }
 
-.chart-notes h3,
 .terms-grid h3 {
   margin: 0 0 0.75rem;
   color: var(--cream);
   font-family: BioRhyme, serif;
   font-size: 1.22rem;
   line-height: 1.25;
-}
-
-.chart-notes ul {
-  display: grid;
-  gap: 0.75rem;
-  margin: 0;
-  padding-left: 1.2rem;
-  color: var(--muted);
-  line-height: 1.55;
 }
 
 .public-chart,
@@ -459,7 +449,7 @@ h2 {
 }
 
 .vendor-directory {
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 .compact-heading {
@@ -472,8 +462,8 @@ h2 {
 
 .vendor-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
 }
 
 .vendor-card {
