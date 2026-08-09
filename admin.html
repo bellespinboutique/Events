@@ -17,8 +17,8 @@
     <a class="skip-link" href="#admin-main">Skip to admin tools</a>
     <header class="site-header" aria-label="Admin header">
       <a class="brand" href="/">
-        <img class="brand-logo" src="assets/belles-logo.jpg" alt="">
-        <span>Belles</span>
+        <img class="brand-logo" src="assets/belles-logo.jpg" alt="" data-brand-logo>
+        <span data-brand-name>Belles</span>
       </a>
       <nav class="nav-links" aria-label="Admin navigation">
         <a href="/">Public Page</a>
@@ -67,6 +67,14 @@
           </div>
           <form class="admin-form event-form" data-event-form>
             <input type="hidden" name="id">
+            <label>
+              Header site name
+              <input type="text" name="brand_name" placeholder="Belles">
+            </label>
+            <label>
+              Header logo
+              <input type="file" name="brand_logo" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
             <label>
               Presented by
               <input type="text" name="presented_by" placeholder="@bellespinboutique91 & @ghosthost86 Present">

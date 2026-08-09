@@ -19,6 +19,8 @@ create table if not exists public.vendors (
 create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),
   title text not null default 'Pin Trading Event',
+  brand_name text default 'Belles',
+  brand_logo_url text default 'assets/belles-logo.jpg',
   presented_by text default '@bellespinboutique91 & @ghosthost86 Present',
   summary text,
   event_date date,
@@ -40,6 +42,12 @@ create table if not exists public.events (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.events
+add column if not exists brand_name text default 'Belles';
+
+alter table public.events
+add column if not exists brand_logo_url text default 'assets/belles-logo.jpg';
 
 alter table public.vendors
 add column if not exists table_number text;
@@ -166,6 +174,8 @@ using (bucket_id in ('vendor-logos', 'event-flyers'));
 
 insert into public.events (
   title,
+  brand_name,
+  brand_logo_url,
   presented_by,
   summary,
   date_label,
@@ -186,6 +196,8 @@ insert into public.events (
 )
 select
   'Pin Trading Event',
+  'Belles',
+  'assets/belles-logo.jpg',
   '@bellespinboutique91 & @ghosthost86 Present',
   'We are excited to host our first big trade event. We love to trade, so join us, stop by, meet the community, and check back for future event announcements coming soon.',
   'Sunday, August 23',

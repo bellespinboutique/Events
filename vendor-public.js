@@ -144,6 +144,7 @@ function setText(selector, value) {
 
 function renderFeaturedEvent(eventData) {
   if (!eventData) return;
+  setText("[data-brand-name]", eventData.brand_name);
   setText("[data-event-presented]", eventData.presented_by);
   setText("[data-event-title]", eventData.title);
   setText("[data-event-summary]", eventData.summary);
@@ -161,6 +162,9 @@ function renderFeaturedEvent(eventData) {
 
   const flyer = document.querySelector("[data-event-flyer]");
   if (flyer && eventData.flyer_url) flyer.src = eventData.flyer_url;
+
+  const brandLogo = document.querySelector("[data-brand-logo]");
+  if (brandLogo && eventData.brand_logo_url) brandLogo.src = eventData.brand_logo_url;
 
   const flyerLink = document.querySelector("[data-event-flyer-link]");
   if (flyerLink && isSafeUrl(eventData.flyer_link)) {

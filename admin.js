@@ -185,6 +185,7 @@ async function uploadEventFlyer(file) {
 function fillEventForm(eventData) {
   if (!eventForm) return;
   eventForm.elements.id.value = eventData?.id || "";
+  eventForm.elements.brand_name.value = eventData?.brand_name || "Belles";
   eventForm.elements.presented_by.value = eventData?.presented_by || "";
   eventForm.elements.title.value = eventData?.title || "";
   eventForm.elements.summary.value = eventData?.summary || "";
@@ -199,6 +200,7 @@ function fillEventForm(eventData) {
   eventForm.elements.vendor_tables_note.value = eventData?.vendor_tables_note || "";
   eventForm.elements.flyer_link.value = eventData?.flyer_link || "";
   eventForm.elements.flyer.value = "";
+  eventForm.elements.brand_logo.value = "";
 }
 
 function fillUpcomingForm(eventData) {
@@ -270,6 +272,7 @@ function readEventForm(form, existing, options) {
   const data = new FormData(form);
   return {
     title: String(data.get("title") || "").trim(),
+    brand_name: String(data.get("brand_name") || "").trim() || "Belles",
     presented_by: String(data.get("presented_by") || "").trim() || null,
     summary: String(data.get("summary") || "").trim() || null,
     date_label: String(data.get("date_label") || "").trim() || null,
@@ -294,11 +297,14 @@ async function saveEventInfo(event) {
   setStatus(eventStatus, "Saving...");
   const id = eventForm.elements.id.value;
   const flyerFile = eventForm.elements.flyer.files[0];
+  const brandLogoFile = eventForm.elements.brand_logo.files[0];
   try {
     const flyerUrl = flyerFile ? await uploadEventFlyer(flyerFile) : featuredEvent?.flyer_url || "assets/event-flyer.png";
+    const brandLogoUrl = brandLogoFile ? await uploadEventFlyer(brandLogoFile) : featuredEvent?.brand_logo_url || "assets/belles-logo.jpg";
     const payload = {
       ...readEventForm(eventForm, featuredEvent, { is_featured: true, is_upcoming: true, is_visible: true }),
-      flyer_url: flyerUrl
+      flyer_url: flyerUrl,
+      brand_logo_url: brandLogoUrl
     };
     const query = id
       ? supabaseClient.from("events").update(payload).eq("id", id).select().single()
