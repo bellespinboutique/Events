@@ -1,6 +1,7 @@
 create table if not exists public.vendors (
   id uuid primary key default gen_random_uuid(),
   table_number text,
+  marker_type text not null default 'vendor',
   name text not null,
   username text,
   logo_url text,
@@ -17,6 +18,9 @@ create table if not exists public.vendors (
 
 alter table public.vendors
 add column if not exists table_number text;
+
+alter table public.vendors
+add column if not exists marker_type text not null default 'vendor';
 
 alter table public.vendors enable row level security;
 

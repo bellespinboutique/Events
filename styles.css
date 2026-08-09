@@ -108,6 +108,14 @@ textarea {
   text-decoration: none;
 }
 
+.brand-logo {
+  width: 2.8rem;
+  height: 2.8rem;
+  object-fit: cover;
+  border: 2px solid var(--teal-bright);
+  border-radius: 50%;
+}
+
 .brand-mark {
   display: grid;
   width: 2.4rem;
@@ -239,6 +247,15 @@ h2 {
 
 .flyer-panel {
   margin: 0;
+}
+
+.flyer-panel a {
+  display: grid;
+  gap: 0.75rem;
+  color: var(--teal-bright);
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
 }
 
 .flyer-panel img {
@@ -680,6 +697,7 @@ h2 {
 }
 
 .admin-form input,
+.admin-form select,
 .admin-form textarea {
   width: 100%;
   min-height: 2.8rem;

@@ -10,6 +10,7 @@ const dialogClose = document.querySelector("[data-dialog-close]");
 function normalizeVendor(vendor) {
   return {
     ...vendor,
+    marker_type: vendor.marker_type || "vendor",
     x: Number(vendor.x || 50),
     y: Number(vendor.y || 50),
     width: Number(vendor.width || 10)
@@ -54,7 +55,13 @@ function openVendor(vendor) {
   if (!dialog) return;
   renderLogo(dialog.querySelector("[data-dialog-logo]"), vendor);
   dialog.querySelector("[data-dialog-name]").textContent = vendor.name;
-  dialog.querySelector("[data-dialog-table]").textContent = vendor.table_number ? `Table(s) ${vendor.table_number}` : "";
+  const typeLabel = vendor.marker_type && vendor.marker_type !== "vendor"
+    ? vendor.marker_type.replace("-", " ")
+    : "";
+  dialog.querySelector("[data-dialog-table]").textContent = [
+    typeLabel,
+    vendor.table_number ? `Table(s) ${vendor.table_number}` : ""
+  ].filter(Boolean).join(" - ");
   dialog.querySelector("[data-dialog-username]").textContent = vendor.username ? `@${vendor.username}` : "";
   dialog.querySelector("[data-dialog-notes]").textContent = vendor.notes || "";
   const link = dialog.querySelector("[data-dialog-link]");
@@ -87,6 +94,11 @@ function renderPins(vendors) {
       badge.className = "vendor-pin-number";
       badge.textContent = vendor.table_number;
       pin.append(badge);
+    } else if (vendor.marker_type && vendor.marker_type !== "vendor") {
+      const badge = document.createElement("span");
+      badge.className = "vendor-pin-number";
+      badge.textContent = vendor.marker_type === "registration" ? "REG" : "INFO";
+      pin.append(badge);
     }
     pin.addEventListener("click", () => openVendor(vendor));
     overlay.append(pin);
@@ -105,7 +117,10 @@ function renderList(vendors) {
     renderLogo(logo, vendor);
     const body = document.createElement("div");
     const title = document.createElement("h3");
-    title.textContent = `${vendor.table_number ? `Table(s) ${vendor.table_number}: ` : ""}${vendor.name}`;
+    const prefix = vendor.marker_type && vendor.marker_type !== "vendor"
+      ? `${vendor.marker_type === "registration" ? "Registration" : "Event Info"}: `
+      : vendor.table_number ? `Table(s) ${vendor.table_number}: ` : "";
+    title.textContent = `${prefix}${vendor.name}`;
     const username = document.createElement("p");
     username.textContent = vendor.username ? `@${vendor.username}` : "Vendor details coming soon";
     body.append(title, username);

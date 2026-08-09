@@ -62,6 +62,7 @@ function currentVendor() {
 
 function fillForm(vendor) {
   vendorForm.elements.id.value = vendor?.id || "";
+  vendorForm.elements.marker_type.value = vendor?.marker_type || "vendor";
   vendorForm.elements.table_number.value = vendor?.table_number || "";
   vendorForm.elements.name.value = vendor?.name || "";
   vendorForm.elements.username.value = vendor?.username || "";
@@ -91,7 +92,7 @@ function renderAdminList() {
     renderLogo(logo, vendor);
     const body = document.createElement("span");
     const name = document.createElement("strong");
-    name.textContent = `${vendor.table_number ? `${vendor.table_number} - ` : ""}${vendor.name}`;
+    name.textContent = `${vendor.marker_type && vendor.marker_type !== "vendor" ? `${vendor.marker_type}: ` : ""}${vendor.table_number ? `${vendor.table_number} - ` : ""}${vendor.name}`;
     const username = document.createElement("small");
     username.textContent = vendor.username ? `@${vendor.username}` : "No username";
     body.append(name, username);
@@ -170,6 +171,7 @@ async function saveVendor(event) {
     const logoUrl = logoFile ? await uploadLogo(logoFile) : existing?.logo_url || null;
     const payload = {
       table_number: String(form.get("table_number") || "").trim() || null,
+      marker_type: String(form.get("marker_type") || "vendor"),
       name: String(form.get("name") || "").trim(),
       username: String(form.get("username") || "").replace(/^@/, "").trim() || null,
       website_url: String(form.get("website_url") || "").trim() || null,

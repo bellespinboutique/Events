@@ -17,8 +17,8 @@
     <a class="skip-link" href="#admin-main">Skip to admin tools</a>
     <header class="site-header" aria-label="Admin header">
       <a class="brand" href="/">
-        <span class="brand-mark">BP</span>
-        <span>BellesPinBoutique91</span>
+        <img class="brand-logo" src="assets/belles-logo.jpg" alt="">
+        <span>Belles</span>
       </a>
       <nav class="nav-links" aria-label="Admin navigation">
         <a href="/">Public Page</a>
@@ -60,6 +60,15 @@
         <div class="admin-grid">
           <form class="admin-form vendor-form" data-vendor-form>
             <input type="hidden" name="id">
+            <label>
+              Marker type
+              <select name="marker_type">
+                <option value="vendor">Vendor</option>
+                <option value="registration">Registration / Check-in</option>
+                <option value="host">Host Table</option>
+                <option value="info">Event Info</option>
+              </select>
+            </label>
             <label>
               Table(s) or booth(s)
               <input type="text" name="table_number" placeholder="1-2, 3, 4, 5, Host Table">
