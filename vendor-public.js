@@ -60,9 +60,11 @@ function openVendor(vendor) {
   const link = dialog.querySelector("[data-dialog-link]");
   if (isSafeUrl(vendor.website_url)) {
     link.hidden = false;
+    link.style.removeProperty("display");
     link.href = vendor.website_url;
   } else {
     link.hidden = true;
+    link.style.display = "none";
     link.removeAttribute("href");
   }
   dialog.showModal();
