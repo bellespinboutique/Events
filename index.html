@@ -119,12 +119,16 @@
         </div>
         <div class="chart-layout">
           <figure class="seating-chart">
-            <img
-              src="assets/seating-chart.png"
-              alt="Event room seating chart with vendor table blocks, chair positions, doors, walkways, and spacing measurements."
-            >
+            <div class="public-chart">
+              <img
+                src="assets/seating-chart.png"
+                alt="Event room seating chart with vendor table blocks, chair positions, doors, walkways, and spacing measurements."
+              >
+              <div class="vendor-overlay" data-vendor-overlay aria-label="Vendor logo placements"></div>
+            </div>
             <figcaption>
-              Preliminary room layout. Final vendor names, logos, and table numbers will be added later.
+              Tap a vendor logo on the chart to view vendor details. Final vendor
+              names, logos, and table numbers may be updated before the event.
             </figcaption>
           </figure>
           <div class="chart-notes" aria-label="Seating chart notes">
@@ -137,6 +141,16 @@
             </ul>
           </div>
         </div>
+        <section class="vendor-directory" aria-labelledby="vendor-directory-title">
+          <div class="section-heading compact-heading">
+            <p class="eyebrow">Vendor Guide</p>
+            <h2 id="vendor-directory-title">Vendor Directory</h2>
+          </div>
+          <p class="empty-state" data-vendor-empty>
+            Vendor guide coming soon. Check back for vendor names, usernames, and logos.
+          </p>
+          <div class="vendor-list" data-vendor-list></div>
+        </section>
       </section>
 
       <section class="info-strip" aria-label="Additional event information">
@@ -209,5 +223,16 @@
         </p>
       </div>
     </footer>
+    <dialog class="vendor-dialog" data-vendor-dialog aria-labelledby="vendor-dialog-title">
+      <button class="dialog-close" type="button" data-dialog-close aria-label="Close vendor details">Close</button>
+      <div class="dialog-logo" data-dialog-logo></div>
+      <h2 id="vendor-dialog-title" data-dialog-name></h2>
+      <p class="dialog-username" data-dialog-username></p>
+      <p data-dialog-notes></p>
+      <a class="button primary" data-dialog-link target="_blank" rel="noopener" hidden>Open Vendor Link</a>
+    </dialog>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="vendor-public.js"></script>
   </body>
 </html>

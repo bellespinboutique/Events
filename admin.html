@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Vendor Admin | BellesPinBoutique91</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="admin-page">
+    <a class="skip-link" href="#admin-main">Skip to admin tools</a>
+    <header class="site-header" aria-label="Admin header">
+      <a class="brand" href="/">
+        <span class="brand-mark">BP</span>
+        <span>BellesPinBoutique91</span>
+      </a>
+      <nav class="nav-links" aria-label="Admin navigation">
+        <a href="/">Public Page</a>
+        <button class="link-button" type="button" data-logout hidden>Sign Out</button>
+      </nav>
+    </header>
+
+    <main id="admin-main" class="admin-shell">
+      <section class="admin-login" data-login-panel>
+        <p class="eyebrow">Private Admin</p>
+        <h1>Vendor Editor</h1>
+        <p class="hero-copy">
+          Sign in to add vendor names, usernames, logos, and seating chart placement.
+        </p>
+        <form class="admin-form" data-login-form>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button class="button primary" type="submit">Sign In</button>
+          <p class="form-status" data-login-status role="status"></p>
+        </form>
+      </section>
+
+      <section class="admin-workspace" data-admin-panel hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Admin Tools</p>
+          <h1>Vendor Editor</h1>
+          <p>
+            Add a vendor, upload a logo, then drag the logo on the seating chart.
+            Use the size slider to fit the table placement.
+          </p>
+        </div>
+
+        <div class="admin-grid">
+          <form class="admin-form vendor-form" data-vendor-form>
+            <input type="hidden" name="id">
+            <label>
+              Vendor name
+              <input type="text" name="name" required>
+            </label>
+            <label>
+              Username
+              <input type="text" name="username" placeholder="bellespinboutique91">
+            </label>
+            <label>
+              Website or social link
+              <input type="url" name="website_url" placeholder="https://instagram.com/...">
+            </label>
+            <label>
+              Notes
+              <textarea name="notes" rows="3" placeholder="Pin types, specials, or booth notes"></textarea>
+            </label>
+            <label>
+              Logo
+              <input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <label>
+              Logo size
+              <input type="range" name="width" min="5" max="24" step="0.5" value="10">
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="is_visible" checked>
+              Show on public page
+            </label>
+            <div class="admin-actions">
+              <button class="button primary" type="submit">Save Vendor</button>
+              <button class="button secondary" type="button" data-new-vendor>New</button>
+              <button class="button danger" type="button" data-delete-vendor disabled>Delete</button>
+            </div>
+            <p class="form-status" data-form-status role="status"></p>
+          </form>
+
+          <section class="admin-chart-panel" aria-labelledby="placement-title">
+            <div class="admin-chart-header">
+              <div>
+                <p class="eyebrow">Placement</p>
+                <h2 id="placement-title">Drag Logos Onto Tables</h2>
+              </div>
+              <p data-active-vendor>Choose a vendor to place it.</p>
+            </div>
+            <div class="editable-chart" data-editable-chart>
+              <img src="assets/seating-chart.png" alt="Editable event seating chart">
+              <div class="vendor-overlay" data-admin-overlay></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="admin-vendor-list" aria-labelledby="vendor-list-title">
+          <h2 id="vendor-list-title">Vendors</h2>
+          <div class="vendor-list-admin" data-admin-list></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
