@@ -2,6 +2,8 @@ create table if not exists public.vendors (
   id uuid primary key default gen_random_uuid(),
   table_number text,
   marker_type text not null default 'vendor',
+  click_behavior text not null default 'popup',
+  marker_style text not null default 'logo',
   name text not null,
   username text,
   logo_url text,
@@ -54,6 +56,12 @@ add column if not exists table_number text;
 
 alter table public.vendors
 add column if not exists marker_type text not null default 'vendor';
+
+alter table public.vendors
+add column if not exists click_behavior text not null default 'popup';
+
+alter table public.vendors
+add column if not exists marker_style text not null default 'logo';
 
 alter table public.vendors enable row level security;
 alter table public.events enable row level security;

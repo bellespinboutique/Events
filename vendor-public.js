@@ -17,6 +17,8 @@ function normalizeVendor(vendor) {
   return {
     ...vendor,
     marker_type: vendor.marker_type || "vendor",
+    click_behavior: vendor.click_behavior || "popup",
+    marker_style: vendor.marker_style || "logo",
     x: Number(vendor.x || 50),
     y: Number(vendor.y || 50),
     width: Number(vendor.width || 10)
@@ -57,12 +59,24 @@ function renderLogo(target, vendor) {
   target.append(fallback);
 }
 
+function markerTypeLabel(type) {
+  const labels = {
+    registration: "Registration",
+    entrance: "Entrance",
+    giveaway: "Giveaway",
+    banner: "Banner",
+    host: "Host Table",
+    info: "Event Info"
+  };
+  return labels[type] || "Event Info";
+}
+
 function openVendor(vendor) {
   if (!dialog) return;
   renderLogo(dialog.querySelector("[data-dialog-logo]"), vendor);
   dialog.querySelector("[data-dialog-name]").textContent = vendor.name;
   const typeLabel = vendor.marker_type && vendor.marker_type !== "vendor"
-    ? vendor.marker_type.replace("-", " ")
+    ? markerTypeLabel(vendor.marker_type)
     : "";
   dialog.querySelector("[data-dialog-table]").textContent = [
     typeLabel,
@@ -88,14 +102,19 @@ function renderPins(vendors) {
   overlay.replaceChildren();
   vendors.forEach((vendor) => {
     const pin = document.createElement("button");
-    pin.className = "vendor-pin";
+    pin.className = `vendor-pin${vendor.marker_style === "label" ? " label-pin" : ""}`;
     pin.type = "button";
     pin.style.left = `${vendor.x}%`;
     pin.style.top = `${vendor.y}%`;
     pin.style.width = `${vendor.width}%`;
     pin.setAttribute("aria-label", `View vendor ${vendor.name}`);
-    renderLogo(pin, vendor);
-    if (vendor.table_number) {
+    pin.dataset.vendorId = vendor.id;
+    if (vendor.marker_style === "label") {
+      pin.textContent = vendor.name;
+    } else {
+      renderLogo(pin, vendor);
+    }
+    if (vendor.table_number && vendor.marker_style !== "label") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
       badge.textContent = vendor.table_number;
@@ -103,12 +122,28 @@ function renderPins(vendors) {
     } else if (vendor.marker_type && vendor.marker_type !== "vendor") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
-      badge.textContent = vendor.marker_type === "registration" ? "REG" : "INFO";
+      badge.textContent = markerTypeLabel(vendor.marker_type).slice(0, 4).toUpperCase();
       pin.append(badge);
     }
-    pin.addEventListener("click", () => openVendor(vendor));
+    pin.addEventListener("click", () => handleVendorClick(vendor));
     overlay.append(pin);
   });
+}
+
+function highlightVendor(id) {
+  document.querySelectorAll(".vendor-card.highlighted").forEach((card) => {
+    card.classList.remove("highlighted");
+  });
+  const card = document.querySelector(`[data-vendor-card-id="${id}"]`);
+  if (!card) return;
+  card.classList.add("highlighted");
+  card.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function handleVendorClick(vendor) {
+  highlightVendor(vendor.id);
+  if (vendor.click_behavior === "highlight") return;
+  openVendor(vendor);
 }
 
 function renderList(vendors) {
@@ -118,25 +153,30 @@ function renderList(vendors) {
   vendors.forEach((vendor) => {
     const item = document.createElement("article");
     item.className = "vendor-card";
+    item.dataset.vendorCardId = vendor.id;
     const logo = document.createElement("div");
     logo.className = "vendor-card-logo";
     renderLogo(logo, vendor);
     const body = document.createElement("div");
     const title = document.createElement("h3");
     const prefix = vendor.marker_type && vendor.marker_type !== "vendor"
-      ? `${vendor.marker_type === "registration" ? "Registration" : "Event Info"}: `
-      : vendor.table_number ? `Table(s) ${vendor.table_number}: ` : "";
+      ? `${markerTypeLabel(vendor.marker_type)}: `
+      : "";
     title.textContent = `${prefix}${vendor.name}`;
+    const table = document.createElement("p");
+    table.textContent = vendor.table_number ? `Table(s): ${vendor.table_number}` : "";
     const username = document.createElement("p");
-    username.textContent = vendor.username ? `@${vendor.username}` : "Vendor details coming soon";
-    body.append(title, username);
+    username.textContent = vendor.username ? `@${vendor.username}` : "";
+    body.append(title);
+    if (table.textContent) body.append(table);
+    if (username.textContent) body.append(username);
     if (vendor.notes) {
       const notes = document.createElement("p");
       notes.textContent = vendor.notes;
       body.append(notes);
     }
     item.append(logo, body);
-    item.addEventListener("click", () => openVendor(vendor));
+    item.addEventListener("click", () => handleVendorClick(vendor));
     list.append(item);
   });
 }

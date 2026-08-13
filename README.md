@@ -26,4 +26,4 @@ only; never add the Supabase service role key to this repo.
 
 Rerun `supabase-setup.sql` after updates that add new admin fields. It is written
 to be safe to rerun and now creates vendor placement fields, event information,
-header branding, upcoming events, and flyer storage.
+header branding, upcoming events, flyer storage, marker types, and map click behavior.

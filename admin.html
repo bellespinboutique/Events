@@ -194,8 +194,25 @@
               <select name="marker_type">
                 <option value="vendor">Vendor</option>
                 <option value="registration">Registration / Check-in</option>
+                <option value="entrance">Entrance</option>
+                <option value="giveaway">Giveaway</option>
+                <option value="banner">Banner</option>
                 <option value="host">Host Table</option>
                 <option value="info">Event Info</option>
+              </select>
+            </label>
+            <label>
+              Map click action
+              <select name="click_behavior">
+                <option value="popup">Open popup info</option>
+                <option value="highlight">Highlight directory only</option>
+              </select>
+            </label>
+            <label>
+              Map marker style
+              <select name="marker_style">
+                <option value="logo">Logo bubble</option>
+                <option value="label">Text label/banner</option>
               </select>
             </label>
             <label>
@@ -203,7 +220,7 @@
               <input type="text" name="table_number" placeholder="1-2, 3, 4, 5, Host Table">
             </label>
             <label>
-              Vendor name
+              Vendor or marker name
               <input type="text" name="name" required>
             </label>
             <label>

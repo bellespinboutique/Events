@@ -73,6 +73,8 @@ function currentVendor() {
 function fillForm(vendor) {
   vendorForm.elements.id.value = vendor?.id || "";
   vendorForm.elements.marker_type.value = vendor?.marker_type || "vendor";
+  vendorForm.elements.click_behavior.value = vendor?.click_behavior || "popup";
+  vendorForm.elements.marker_style.value = vendor?.marker_style || "logo";
   vendorForm.elements.table_number.value = vendor?.table_number || "";
   vendorForm.elements.name.value = vendor?.name || "";
   vendorForm.elements.username.value = vendor?.username || "";
@@ -117,13 +119,17 @@ function renderAdminPins() {
   vendors.forEach((vendor) => {
     const pin = document.createElement("button");
     pin.type = "button";
-    pin.className = `vendor-pin admin-pin${vendor.id === activeVendorId ? " active" : ""}`;
+    pin.className = `vendor-pin admin-pin${vendor.marker_style === "label" ? " label-pin" : ""}${vendor.id === activeVendorId ? " active" : ""}`;
     pin.style.left = `${vendor.x}%`;
     pin.style.top = `${vendor.y}%`;
     pin.style.width = `${vendor.width}%`;
     pin.setAttribute("aria-label", `Move ${vendor.name}`);
-    renderLogo(pin, vendor);
-    if (vendor.table_number) {
+    if (vendor.marker_style === "label") {
+      pin.textContent = vendor.name;
+    } else {
+      renderLogo(pin, vendor);
+    }
+    if (vendor.table_number && vendor.marker_style !== "label") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
       badge.textContent = vendor.table_number;
@@ -381,6 +387,8 @@ async function saveVendor(event) {
     const payload = {
       table_number: String(form.get("table_number") || "").trim() || null,
       marker_type: String(form.get("marker_type") || "vendor"),
+      click_behavior: String(form.get("click_behavior") || "popup"),
+      marker_style: String(form.get("marker_style") || "logo"),
       name: String(form.get("name") || "").trim(),
       username: String(form.get("username") || "").replace(/^@/, "").trim() || null,
       website_url: String(form.get("website_url") || "").trim() || null,
