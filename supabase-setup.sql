@@ -4,6 +4,7 @@ create table if not exists public.vendors (
   marker_type text not null default 'vendor',
   click_behavior text not null default 'popup',
   marker_style text not null default 'logo',
+  show_badge boolean not null default true,
   name text not null,
   username text,
   logo_url text,
@@ -62,6 +63,9 @@ add column if not exists click_behavior text not null default 'popup';
 
 alter table public.vendors
 add column if not exists marker_style text not null default 'logo';
+
+alter table public.vendors
+add column if not exists show_badge boolean not null default true;
 
 alter table public.vendors enable row level security;
 alter table public.events enable row level security;

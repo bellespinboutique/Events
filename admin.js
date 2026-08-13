@@ -82,6 +82,7 @@ function fillForm(vendor) {
   vendorForm.elements.notes.value = vendor?.notes || "";
   vendorForm.elements.width.value = vendor?.width || 10;
   vendorForm.elements.is_visible.checked = vendor ? Boolean(vendor.is_visible) : true;
+  vendorForm.elements.show_badge.checked = vendor ? Boolean(vendor.show_badge) : true;
   vendorForm.elements.logo.value = "";
   deleteButton.disabled = !vendor?.id;
   activeVendorText.textContent = vendor ? `Editing ${vendor.name}` : "Choose a vendor to place it.";
@@ -129,7 +130,7 @@ function renderAdminPins() {
     } else {
       renderLogo(pin, vendor);
     }
-    if (vendor.table_number && vendor.marker_style !== "label") {
+    if (vendor.show_badge && vendor.table_number && vendor.marker_style !== "label") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
       badge.textContent = vendor.table_number;
@@ -389,6 +390,7 @@ async function saveVendor(event) {
       marker_type: String(form.get("marker_type") || "vendor"),
       click_behavior: String(form.get("click_behavior") || "popup"),
       marker_style: String(form.get("marker_style") || "logo"),
+      show_badge: Boolean(form.get("show_badge")),
       name: String(form.get("name") || "").trim(),
       username: String(form.get("username") || "").replace(/^@/, "").trim() || null,
       website_url: String(form.get("website_url") || "").trim() || null,

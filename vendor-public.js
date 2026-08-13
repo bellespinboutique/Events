@@ -19,6 +19,7 @@ function normalizeVendor(vendor) {
     marker_type: vendor.marker_type || "vendor",
     click_behavior: vendor.click_behavior || "popup",
     marker_style: vendor.marker_style || "logo",
+    show_badge: vendor.show_badge !== false,
     x: Number(vendor.x || 50),
     y: Number(vendor.y || 50),
     width: Number(vendor.width || 10)
@@ -114,12 +115,12 @@ function renderPins(vendors) {
     } else {
       renderLogo(pin, vendor);
     }
-    if (vendor.table_number && vendor.marker_style !== "label") {
+    if (vendor.show_badge && vendor.table_number && vendor.marker_style !== "label") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
       badge.textContent = vendor.table_number;
       pin.append(badge);
-    } else if (vendor.marker_type && vendor.marker_type !== "vendor") {
+    } else if (vendor.show_badge && vendor.marker_type && vendor.marker_type !== "vendor") {
       const badge = document.createElement("span");
       badge.className = "vendor-pin-number";
       badge.textContent = markerTypeLabel(vendor.marker_type).slice(0, 4).toUpperCase();
