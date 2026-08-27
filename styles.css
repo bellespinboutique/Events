@@ -47,6 +47,42 @@ body::before {
   mask-image: linear-gradient(to bottom, black, transparent 85%);
 }
 
+body.coming-soon-mode {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+body.coming-soon-mode .skip-link,
+body.coming-soon-mode .site-header,
+body.coming-soon-mode #main-content,
+body.coming-soon-mode .site-footer,
+body.coming-soon-mode .vendor-dialog {
+  display: none !important;
+}
+
+.coming-soon-page {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  gap: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.coming-soon-page h1 {
+  max-width: min(100%, 52rem);
+  font-size: clamp(2.6rem, 9vw, 6.4rem);
+}
+
+.coming-soon-page p {
+  margin: 0;
+  color: var(--teal-bright);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 a {
   color: inherit;
 }

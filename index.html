@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="BellesPinBoutique91 Disney pin trading community monthly event at DoubleTree by Hilton Buena Park."
+      content="BellesPinBoutique91 coming soon."
     >
-    <title>BellesPinBoutique91 Pin Trading Event</title>
+    <title>BellesPinBoutique91 Coming Soon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -16,9 +16,14 @@
     >
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <header class="site-header" aria-label="Event header">
+  <body class="coming-soon-mode">
+    <main class="coming-soon-page" aria-labelledby="coming-soon-title">
+      <h1 id="coming-soon-title">BellesPinBoutique91</h1>
+      <p>Coming Soon</p>
+    </main>
+
+    <a class="skip-link" href="#main-content" hidden>Skip to main content</a>
+    <header class="site-header" aria-label="Event header" hidden>
       <a class="brand" href="https://bellespinboutique.com/">
         <img class="brand-logo" src="assets/belles-logo.jpg" alt="" data-brand-logo>
         <span data-brand-name>Belles</span>
@@ -32,7 +37,7 @@
       </nav>
     </header>
 
-    <main id="main-content">
+    <main id="main-content" hidden>
       <section class="hero">
         <div class="hero-content">
           <p class="eyebrow" data-event-presented>@bellespinboutique91 &amp; @ghosthost86 Present</p>
@@ -248,7 +253,7 @@
       </section>
     </main>
 
-    <footer id="contact" class="site-footer">
+    <footer id="contact" class="site-footer" hidden>
       <div>
         <p class="eyebrow">Questions or Vendor Tables</p>
         <h2>DM @bellespinboutique91</h2>
@@ -261,7 +266,7 @@
         </p>
       </div>
     </footer>
-    <dialog class="vendor-dialog" data-vendor-dialog aria-labelledby="vendor-dialog-title">
+    <dialog class="vendor-dialog" data-vendor-dialog aria-labelledby="vendor-dialog-title" hidden>
       <button class="dialog-close" type="button" data-dialog-close aria-label="Close vendor details">Close</button>
       <div class="dialog-logo" data-dialog-logo></div>
       <h2 id="vendor-dialog-title" data-dialog-name></h2>
